@@ -1,32 +1,43 @@
 import os
-import time # package untuk time diantaranya time.sleep untuk delay
+import time 
 import menu_after_login as mal
 import temp_data as td
-from pyfiglet import Figlet # package untuk style text
+from pyfiglet import Figlet
 from prettytable import PrettyTable
 
-menu_menantea = [] # Global variabel, variabel ini digunakan untuk menyimpan data menu yg di tambahkan pada 
-pembelian = [] # Global variabel, variabel ini digunakan untuk menyimpan data pembelian
+menu_menantea ={} 
+pembelian = [] 
 
-# Fungsi untuk Tambah Menu
-# ketika user memilih tambah menu pada menu awal
-# maka fungsi ini dijalankan
 def tambah_menu():
     try:
         berapa = int(input("ingin menginputkan berapa banyak : "))
-        t = PrettyTable(['No', 'Menu'])
+        t = PrettyTable(['No', 'Menu', 'Harga'])
         for idx in range(berapa):
-            masukan = input("silahkan masukkan nama menu : ")
-            menu_menantea.append(masukan)
-        # for idx, itm in enumerate (menu_menantea, 1) :
-        #     print()
-        #     print("Menu yang ditambahkan")
-        #     t.add_row([idx, itm])
-        # print(t)
+            try:
+                noMenu = int(input("Silahkan masukkan no menu : "))
+                masukan = input("Silahkan masukkan nama menu : ")
+                price = int(input("Harga menu : "))
+                if noMenu == menu_menantea.keys():
+                    print("No Menu sudah ada silahkan masukkan No lain")
+                    time.sleep(1)
+                    tambah_menu()
+                else:
+                    menu_menantea.update({noMenu:{masukan:price}})
+            except ValueError:
+                print('Input Salah!')
+                break
+            finally:
+                print()
+        for no, value in menu_menantea.items():
+            for name, price in value.items():
+                t.add_row([no, name, price])
+        print()
+        print("Menu yang ditambahkan")
+        print(t)
         print()
         print("Data berhasil disimpan!")
         print("Waiting . . . .")
-        time.sleep(3)
+        time.sleep(9)
         os.system("clear")
         mal.admin_menu()
     except ValueError:
@@ -37,21 +48,16 @@ def tambah_menu():
     finally:
         print()
 
-# Fungsi untuk Tampilkan Menu
-# ketika user memilih tampilkan menu pada menu awal
-# maka fungsi ini dijalankan
 def tampilkan_menu():
     print(40*"=")
     print("         Pilihan Menu            ")
     print(40*"=")
-    # cek terlebih dahulu apakah data yang ada pada
-    # globaL variabel menu_menantea diatas datanya ada atau tidak
     if menu_menantea:
-        t = PrettyTable(['No', 'Menu'])
-        for idx, itm in enumerate (menu_menantea, 1) :
-            t.add_row([idx, itm])
+        t = PrettyTable(['No', 'Menu', 'Harga'])
+        for no, value in menu_menantea.items():
+            for name, price in value.items():
+                t.add_row([no, name, price])
         print(t)
-            # print(f"{idx}.{itm}")
         print()
         back = input("Back (0) : ")
         if back == "0":
@@ -74,15 +80,9 @@ def tampilkan_menu():
             mal.admin_menu()
         return
 
-# Fungsi untuk Update Menu
-# ketika user memilih update menu pada menu awal
-# maka fungsi ini dijalankan
 def update_menu():
-    # cek terlebih dahulu apakah data yang ada pada
-    # globaL variabel menu_menantea diatas datanya ada atau tidak
     if menu_menantea:
-        # for x in range(len(menu_menantea + 1)):
-        f_index = [index for index, itm in enumerate(menu_menantea, 1)] # digunakan untuk menemukan index menu_menante
+        f_index = [index for index, itm in enumerate(menu_menantea, 1)] 
         berapa = int(input("Pilih nomor menu yang akan dihapus : "))
         try:
             if berapa == f_index.index(berapa) + 1:
@@ -106,34 +106,36 @@ def update_menu():
         os.system("clear")
         mal.admin_menu()
 
-# Fungsi untuk Update Menu
-# ketika user memilih update menu pada menu awal
-# maka fungsi ini dijalankan
 def hapus_menu():
-    # cek terlebih dahulu apakah data yang ada pada
-    # globaL variabel menu_menantea diatas datanya ada atau tidak
     if menu_menantea:
-        # for x in range(len(menu_menantea)):
-        f_index = [index for index, itm in enumerate(menu_menantea, 1)]
+        f_index = [*menu_menantea]
         berapa = int(input("Pilih nomor menu yang akan dihapus : "))
         try:
             if berapa == f_index.index(berapa) + 1:
-                pilih = input("Apakah anda yakin ? (y/n): ")
+                pilih = input("Apakah anda yakin menghapus menu ? (y/n): ")
                 if pilih == "y":
-                    del menu_menantea[berapa-1]
+                    del menu_menantea[berapa]
                     print("Menu deleted!!\n")
                     print("Waiting . . . .")
                     time.sleep(2)
                     os.system("clear")
                     mal.admin_menu()
                 elif pilih == "n":
-                    print("Waiting . . . .")
-                    time.sleep(1)
-                    mal.admin_menu()
-            
+                    back = input("Back/No (0)/(1) : ")
+                    if back == "0":
+                        print("Waiting . . . .")
+                        time.sleep(2)
+                        os.system("clear")
+                        if td.login["id"] == td.user["id"]:
+                            mal.user_menu()
+                        else:
+                            mal.admin_menu()
+                    elif back == '1':
+                        hapus_menu()
+                    return
         except ValueError:
             print("Maaf nomor menu yang anda masukkan tidak tersedia")
-            print("Silahkan pilih nomor menu yang tersedia")
+            print("Silahkan pilih nomor menu yang tersedia dan silahkan lihat menu terlebih dahulu")
             print("Waiting . . . .")
             time.sleep(1)
             hapus_menu()
@@ -144,12 +146,7 @@ def hapus_menu():
         os.system("clear")
         mal.admin_menu()
 
-# Fungsi untuk Melakukan Pembelian
-# ketika user memilih melakukan pembelian pada menu awal
-# maka fungsi ini dijalankan
 def do_pembelian():
-    # cek terlebih dahulu apakah data yang ada pada
-    # globaL variabel menu_menantea diatas datanya ada atau tidak
     beli = sum(pembelian)
     if menu_menantea:
         print()
@@ -175,7 +172,6 @@ def do_pembelian():
                         time.sleep(3)
                         do_pembelian()
                     else:
-                        # print("Total Pembayaran : ", [ beli ])
                         print()
                         print("Silahkan melakukan pembayaran di kasir")
                         print("Waiting . . . .")

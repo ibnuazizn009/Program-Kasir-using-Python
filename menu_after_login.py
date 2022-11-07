@@ -5,9 +5,6 @@ import main as m
 from pyfiglet import Figlet
 from colorama import Fore, Style
 
-# Fungsi untuk menampilkan menu pada awal
-# program di running
-# untuk membuat fungsi di python menggunakan def(spasi)(namanya()) seperti di bawah
 def admin_menu():
     print("""Pilih Menu :
     1. Tambah Menu
@@ -21,16 +18,16 @@ def admin_menu():
     pilih = input("Pilihan : ")
 
     if pilih == "1":
-        mn.tambah_menu() # Pemanggilan fungsi tambah menu yang sudah dibuat diatas
+        mn.tambah_menu()
     elif pilih == "2":
         print("Waiting . . . .")
         time.sleep(2)
         os.system("clear")
-        mn.tampilkan_menu() # Pemanggilan fungsi tampilkan menu yang sudah dibuat diatas
+        mn.tampilkan_menu()
     elif pilih == "3":
-        mn.update_menu() # Pemanggilan fungsi tampilkan menu yang sudah dibuat diatas
+        mn.update_menu() 
     elif pilih == "4":
-        mn.hapus_menu() # Pemanggilan fungsi hapus menu yang sudah dibuat diatas
+        mn.hapus_menu() 
     elif pilih == "5":
         mn.do_pembelian()
     elif pilih == "0":
@@ -56,9 +53,9 @@ def c_user_menu():
     pilih = input("Pilihan : ")
 
     if pilih == "1":
-        mn.tampilkan_menu() # Pemanggilan fungsi tambah menu yang sudah dibuat diatas
+        mn.tampilkan_menu()
     elif pilih == "2":
-        mn.do_pembelian() # Pemanggilan fungsi tampilkan menu yang sudah dibuat diatas
+        mn.do_pembelian()
     elif pilih == "0":
         if mn.pembelian:
             print("Maaf anda tidak bisa Logout")
@@ -67,7 +64,7 @@ def c_user_menu():
         else:
             print()
             print("Successfull Logout!")
-            time.sleep(2) # Delay time
+            time.sleep(2)
             os.system("clear")
             m.menu()
     else:

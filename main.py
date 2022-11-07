@@ -1,12 +1,8 @@
-# Code dibawah adalah untuk memanggil package
-# package disini adalah sebuah fungsi yg disediakan oleh python sendiri
-# atau kita harus install terlebih dahulu packagenya
 import os
-import time # package untuk time diantaranya time.sleep untuk delay
+import time
 import login_as as la
-from pyfiglet import Figlet # package untuk style text
+from pyfiglet import Figlet 
 
-# Fungsi Menu Login and Register
 def menu():
     f = Figlet(font="small", width=200)
     print(f.renderText('PROGRAM KASIR TOKO MENANTEA'))
@@ -37,9 +33,6 @@ def menu():
         os.system("clear")
         menu()
 
-# Main Fungsi
-# berguna untuk mendefinisikan funsi mana yang akan
-# di tampilkan ketika program di running/dijalankan
 if __name__ == "__main__":
   while(True):
     menu()

@@ -5,6 +5,7 @@ import temp_data as td
 import menu_after_login as mal
 from pyfiglet import Figlet
 
+
 # Fungsi untuk register
 # ketika user memilih register pada menu awal
 # maka fungsi ini dijalankan
@@ -12,8 +13,11 @@ def register():
     print("Masukkan ID dan Password Pengguna Baru")
     while True:
         try:
-            td.user["id"] = str(input("Masukkan ID Pengguna berupa karakter bukan angka : "))
-            td.user["pass"] = str(input("Masukkan Password berupa angka : "))
+            td.user["id"] = input("Masukkan ID Pengguna berupa karakter bukan angka : ")
+            td.user["pass"] = int(input("Masukkan Password berupa angka : "))
+            if td.user["id"].isnumeric():
+                print("Tolong input ID atau Password dengan benar")
+                break
         except ValueError:
             print("Tolong input ID atau Password dengan benar")
         else:
@@ -71,7 +75,7 @@ def login_as_user():
     while ulang == False and coba <= 3:
         print("Masukkan ID dan Password pengguna yang telah dibuat")
         td.login["id"] = str(input("Masukkan ID Pengguna berupa karakter bukan angka : "))
-        td.login["pass"] = str(input("Masukkan Password berupa angka : "))
+        td.login["pass"] = int(input("Masukkan Password berupa angka : "))
         print(50*"=")
         if td.login["id"] == td.user["id"] and td.login["pass"] == td.user["pass"]:
             print("Login Successfull!!")
