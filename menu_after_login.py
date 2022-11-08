@@ -11,7 +11,6 @@ def admin_menu():
     2. Tampilkan Menu
     3. Update Menu
     4. Hapus Menu
-    5. Melakukan Pembelian
     0. Logout
     """)
 

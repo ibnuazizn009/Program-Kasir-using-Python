@@ -17,6 +17,7 @@ def register():
             td.user["pass"] = int(input("Masukkan Password berupa angka : "))
             if td.user["id"].isnumeric():
                 print("Tolong input ID atau Password dengan benar")
+                register()
                 break
         except ValueError:
             print("Tolong input ID atau Password dengan benar")
